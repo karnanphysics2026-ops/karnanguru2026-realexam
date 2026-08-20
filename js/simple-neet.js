@@ -202,7 +202,7 @@ async function saveAttempt(r){
 }
 function renderResult(r,auto){
   $('result-score').textContent=r.score; $('result-correct').textContent=r.correct; $('result-wrong').textContent=r.wrong; $('result-unanswered').textContent=r.unanswered;
-  $('result-message').textContent=r.score>=600?'Excellent. You are building strong exam confidence.':r.score>=500?'Good progress. Review your mistakes and push the next mock higher.':'Use this result as a baseline. Your next goal is improvement, not perfection.';
+  $('result-message').textContent=r.score>=600?'Excellent! Practice makes man perfect — walk into the real exam with this same confidence. You are one step closer to becoming a doctor.':r.score>=500?'Good progress. Review your mistakes and practice again — that is how confidence is built. Push the next mock higher.':'This is your baseline, not your limit. Come back with the same aspiration, practice again, and go with more confidence next time.';
   $('result-subjects').innerHTML=Object.entries(r.subjects).map(([s,v])=>`<div class="result-row"><b>${s}</b><span>${v.correct} correct · ${v.wrong} wrong · ${v.unanswered} unanswered</span><strong>${v.score}</strong></div>`).join('');
   $('auto-note').style.display=auto?'block':'none';
 }

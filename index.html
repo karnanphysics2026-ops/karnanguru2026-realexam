@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="KARNAN GURU — simple NEET mock tests and real exam simulator.">
-<title>KARNAN GURU — NEET Mock Tests & Real Exam</title>
+<meta name="description" content="KARNAN GURU — NEET mock tests and a real exam simulator. Practice makes man perfect. Come with aspiration, go with confidence.">
+<title>KARNAN GURU — NEET Mock Tests & Real Exam Practice</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -13,15 +13,16 @@
 <header><div class="brand" onclick="goHome()"><span class="brand-mark">K</span><span>KARNAN GURU</span></div><div id="header-actions"></div></header>
 
 <main>
-<section id="landing" class="page active"><div class="hero"><span class="eyebrow">NEET UG · EXAM PRACTICE</span><h1>Practice like the<br><em>real exam.</em></h1><p>Two focused mock tests and a full NEET real-exam simulator. Simple, timed and built to improve confidence.</p><div class="hero-actions"><button class="primary" onclick="openRegister()">Get Started →</button><button class="ghost big" onclick="openLogin()">I already have an account</button></div></div><div class="feature-strip"><div><b>180</b><span>Questions</span></div><div><b>180 min</b><span>Exam time</span></div><div><b>720</b><span>Maximum marks</span></div><div><b>+4 / −1</b><span>Marking</span></div></div></section>
+<section id="landing" class="page active"><div class="hero"><span class="eyebrow">NEET UG · YOUR DOCTOR DREAM STARTS HERE</span><h1>Practice makes<br><em>man perfect.</em></h1><p>Come with aspiration, go with confidence. Two focused mock tests and a full NEET real-exam simulator — practice like the real exam, walk in ready, and take one more step toward becoming a doctor.</p><div class="hero-actions"><button class="primary" onclick="openRegister()">Get Started →</button><button class="ghost big" onclick="openLogin()">I already have an account</button></div><p class="mantra">🩺 Practice makes man perfect. Come with aspiration, go with confidence.</p></div><div class="feature-strip"><div><b>180</b><span>Questions</span></div><div><b>180 min</b><span>Exam time</span></div><div><b>720</b><span>Maximum marks</span></div><div><b>+4 / −1</b><span>Marking</span></div></div></section>
 
-<section id="home" class="page"><div class="home-top"><div><span class="eyebrow">KARNAN GURU</span><h1>Welcome, <span id="student-name">Student</span></h1><p>Choose a test and build your exam confidence.</p></div><span id="access-badge" class="badge free">FREE ACCOUNT</span></div>
+<section id="home" class="page"><div class="home-top"><div><span class="eyebrow">KARNAN GURU</span><h1>Welcome, <span id="student-name">Student</span></h1><p>Come with aspiration, go with confidence. Every mock test brings you one step closer to becoming a doctor.</p></div><span id="access-badge" class="badge free">FREE ACCOUNT</span></div>
 <div class="notice"><b>Current exam format</b><span>180 compulsory questions · Physics 45 · Chemistry 45 · Biology 90 · 180 minutes</span></div>
+<div class="mantra-strip">💪 Practice makes man perfect — attempt a test today and walk out more confident than yesterday.</div>
 <h2>Mock Tests</h2><div id="mock-grid" class="test-grid"></div>
-<h2 class="section-gap">Real Exam</h2><article id="real-card" class="real-card"><div><span class="real-label">FULL EXAM SIMULATOR</span><h3>NEET Real Exam</h3><p>One complete paper with exam-style navigation, question palette, review marking, timer and final score.</p><div class="chips"><span>3 hours</span><span>180 questions</span><span>720 marks</span></div></div><button id="real-button" class="primary" onclick="startReal()">Start Real Exam →</button></article><div id="premium-note" class="premium-note">🔒 These tests are available to paid members. Sign in with a premium account to start.</div>
+<h2 class="section-gap">Real Exam</h2><article id="real-card" class="real-card"><div><span class="real-label">FULL EXAM SIMULATOR</span><h3>NEET Real Exam</h3><p>One complete paper with exam-style navigation, question palette, review marking, timer and final score — practice like the real thing, so the real thing feels like practice.</p><div class="chips"><span>3 hours</span><span>180 questions</span><span>720 marks</span></div></div><button id="real-button" class="primary" onclick="startReal()">Start Real Exam →</button></article><div id="premium-note" class="premium-note">🔒 These tests are available to paid members. Sign in with a premium account to start.</div>
 </section>
 
-<section id="auth" class="page auth-page"><div class="auth-card"><button class="back" onclick="show('landing')">← Back</button><div class="auth-logo">K</div><h1 id="auth-title">Welcome back</h1><p>Access your NEET exam practice.</p><input type="hidden" id="auth-mode" value="login"><label id="name-wrap" style="display:none">Name<input id="auth-name" placeholder="Your name"></label><label>Email<input id="auth-email" type="email" placeholder="you@example.com"></label><label>Password<input id="auth-password" type="password" placeholder="Minimum 6 characters"></label><div id="auth-error" class="error"></div><button id="auth-submit" class="primary full" onclick="submitAuth()">Sign in</button><div class="switch"><button onclick="openRegister()">Create account</button><button onclick="openLogin()">Sign in</button></div></div></section>
+<section id="auth" class="page auth-page"><div class="auth-card"><button class="back" onclick="show('landing')">← Back</button><div class="auth-logo">K</div><h1 id="auth-title">Welcome back</h1><p>Access your NEET exam practice and keep building confidence.</p><input type="hidden" id="auth-mode" value="login"><label id="name-wrap" style="display:none">Name<input id="auth-name" placeholder="Your name"></label><label>Email<input id="auth-email" type="email" placeholder="you@example.com"></label><label>Password<input id="auth-password" type="password" placeholder="Minimum 6 characters"></label><div id="auth-error" class="error"></div><button id="auth-submit" class="primary full" onclick="submitAuth()">Sign in</button><div class="switch"><button onclick="openRegister()">Create account</button><button onclick="openLogin()">Sign in</button></div></div></section>
 
 <section id="loading" class="page centered"><div class="loader"></div><h2 id="loading-text">Preparing your exam…</h2><p>Please wait.</p></section>
 
@@ -29,6 +30,8 @@
 
 <section id="result" class="page result-page"><div class="result-card"><span class="eyebrow">TEST COMPLETED</span><h1 id="result-score">0</h1><p class="score-label">out of 720</p><p id="result-message" class="result-message"></p><div id="auto-note" class="auto-note">Time expired. Your paper was submitted automatically.</div><div class="stats"><div><b id="result-correct">0</b><span>Correct</span></div><div><b id="result-wrong">0</b><span>Wrong</span></div><div><b id="result-unanswered">0</b><span>Unanswered</span></div></div><h2>Subject performance</h2><div id="result-subjects"></div><button class="primary full" onclick="backFromResult()">Back to Tests</button></div></section>
 </main>
+
+<footer class="site-footer">🩺 Practice makes man perfect. Come with aspiration, go with confidence — and achieve your dream to become a doctor.</footer>
 
 <div id="upgrade-modal" class="modal"><div class="modal-card"><button class="close" onclick="closeUpgrade()">×</button><div class="lock">🔒</div><h2>Premium access required</h2><p>Mock Tests 01 & 02 and the Real Exam are available for paid users.</p><p class="muted">Your account is currently on the free plan.</p><button class="primary full" onclick="closeUpgrade()">Close</button></div></div>
 <script src="js/simple-neet.js"></script>
