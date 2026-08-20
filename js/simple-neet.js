@@ -215,6 +215,26 @@ function renderResult(r,auto){
   $('result-message').textContent=r.score>=600?'Excellent! Practice makes man perfect — walk into the real exam with this same confidence. You are one step closer to becoming a doctor.':r.score>=500?'Good progress. Review your mistakes and practice again — that is how confidence is built. Push the next mock higher.':'This is your baseline, not your limit. Come back with the same aspiration, practice again, and go with more confidence next time.';
   $('result-subjects').innerHTML=Object.entries(r.subjects).map(([s,v])=>`<div class="result-row"><b>${s}</b><span>${v.correct} correct · ${v.wrong} wrong · ${v.unanswered} unanswered</span><strong>${v.score}</strong></div>`).join('');
   $('auto-note').style.display=auto?'block':'none';
+  const rev=$('review-list'); rev.classList.remove('open'); rev.innerHTML=''; delete rev.dataset.rendered;
+  $('review-toggle').textContent='📖 Review Answers & Explanations';
+}
+function toggleReview(){
+  const el=$('review-list');
+  const open=el.classList.toggle('open');
+  $('review-toggle').textContent=open?'📖 Hide Review':'📖 Review Answers & Explanations';
+  if(open && !el.dataset.rendered){ renderReviewList(); el.dataset.rendered='1'; }
+}
+function renderReviewList(){
+  $('review-list').innerHTML=questions.map((q,i)=>{
+    const a=answers[i];
+    const opts=q.options.map((o,j)=>{
+      const cls=j===q.correct?'correct':j===a?'wrong':'';
+      return `<div class="review-opt ${cls}"><span>${j+1}</span>${esc(o)}</div>`;
+    }).join('');
+    const status=a===undefined?'<em>Unanswered</em>':a===q.correct?'<b class="ok">Correct</b>':'<b class="bad">Wrong</b>';
+    const explanation=q.explanation?`<div class="explanation-box">${esc(q.explanation)}</div>`:'';
+    return `<div class="review-item"><div class="review-item-head"><span>Q${i+1} · ${q.subject}</span>${status}</div><p>${esc(q.question)}</p>${opts}${explanation}</div>`;
+  }).join('');
 }
 function backFromResult(){ activeTest=null; show('home'); renderHome(); }
 
