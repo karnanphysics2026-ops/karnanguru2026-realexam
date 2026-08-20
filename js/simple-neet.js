@@ -43,8 +43,13 @@ async function boot() {
 
 async function setUser(u) {
   user = u;
-  const { data } = await db.from('user_profiles').select('id,display_name,plan').eq('id', u.id).maybeSingle();
-  profile = data || { id: u.id, display_name: u.user_metadata?.display_name || u.email?.split('@')[0] || 'Student', plan: 'free' };
+  const fallback = { id: u.id, display_name: u.user_metadata?.display_name || u.email?.split('@')[0] || 'Student', plan: 'free' };
+  try {
+    const { data } = await db.from('user_profiles').select('id,display_name,plan').eq('id', u.id).maybeSingle();
+    profile = data || fallback;
+  } catch (e) {
+    profile = fallback;
+  }
   renderHeader();
   show('home');
   renderHome();
@@ -82,16 +87,21 @@ async function submitAuth() {
   $('auth-error').textContent = '';
   if (!email || password.length < 6 || (mode === 'register' && !name)) { $('auth-error').textContent = 'Please enter valid details. Password must be at least 6 characters.'; return; }
   $('auth-submit').disabled = true;
-  let result;
-  if (mode === 'login') result = await db.auth.signInWithPassword({ email, password });
-  else result = await db.auth.signUp({ email, password, options: { data: { display_name: name } } });
-  $('auth-submit').disabled = false;
-  if (result.error) { $('auth-error').textContent = result.error.message; return; }
-  if (mode === 'register' && result.data.user) {
-    await db.from('user_profiles').upsert({ id: result.data.user.id, display_name: name, plan: 'free' }, { onConflict: 'id' });
+  try {
+    let result;
+    if (mode === 'login') result = await db.auth.signInWithPassword({ email, password });
+    else result = await db.auth.signUp({ email, password, options: { data: { display_name: name } } });
+    if (result.error) { $('auth-error').textContent = result.error.message; return; }
+    if (mode === 'register' && result.data.user) {
+      await db.from('user_profiles').upsert({ id: result.data.user.id, display_name: name, plan: 'free' }, { onConflict: 'id' });
+    }
+    if (result.data.session) await setUser(result.data.user);
+    else $('auth-error').textContent = 'Account created. Please check your email to confirm, then sign in.';
+  } catch (e) {
+    $('auth-error').textContent = 'Something went wrong. Please check your connection and try again.';
+  } finally {
+    $('auth-submit').disabled = false;
   }
-  if (result.data.session) await setUser(result.data.user);
-  else $('auth-error').textContent = 'Account created. Please check your email to confirm, then sign in.';
 }
 
 async function logout(){ await db.auth.signOut(); }
