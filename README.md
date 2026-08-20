@@ -1,30 +1,24 @@
-# KARNAN — NEET UG Practice Platform
+# KARNAN GURU — NEET Mock Tests & Real Exam
+
+A focused NEET UG practice platform: two mock tests and a full real-exam
+simulator. Nothing else competes for the student's attention.
+
+**Mantra:** Practice makes man perfect. Come with aspiration, go with
+confidence — and achieve your dream to become a doctor.
+
 ## File Structure
 
 ```
 karnan/
-├── index.html          ← Main HTML (screens/templates only, no CSS/JS inline)
+├── index.html          ← Single-page app: landing, home, auth, exam, result screens
 ├── css/
 │   └── styles.css      ← All CSS (design tokens, components, layouts)
-└── js/
-    ├── config.js       ← Supabase credentials, plan constants, global state vars
-    ├── db.js           ← Database queries: storage sync, loadManifest, fetchQuestions
-    ├── utils.js        ← Helpers: shuffle, date keys, daily tracking, subjClass
-    ├── navigation.js   ← showScreen, goHome, confirmExit, renderStepper
-    ├── flow.js         ← openFlow, renderLangOptions, renderSubjectOptions,
-    │                     renderChapters, selectChapter, startGrandTest, timedSetup
-    ├── quiz.js         ← Flashcard, True/False, Practice quiz, Timed quiz
-    ├── leaderboard.js  ← saveToLeaderboard, fetchGlobalLeaderboard, renderLbContent
-    ├── dashboard.js    ← renderDashboard, loadWrongAnswers, renderMistakes,
-    │                     clearMistakes, practiceWrong
-    ├── home.js         ← renderHomeSessions, renderHomeFeatures, renderHomeStats
-    ├── auth.js         ← DOMContentLoaded, handleLogin, handleRegister,
-    │                     handleLogout, showAuthScreen, selectPlan, confirmPlan
-    ├── admin.js        ← loadAdminConfig, saveAdminConfig, saveChapterLimits,
-    │                     showAdminPanel, loadSupabaseHomeStats
-    └── app.js          ← initApp, updateNavUser, updateUpgradeBanner,
-                          showToast, DAILY_TIPS, showDailyTipPopup
-
+├── js/
+│   └── simple-neet.js  ← App logic: auth, question loading, exam engine, results
+├── assets/
+│   └── logo.png
+├── data/, source/       ← Question bank source files used by the Supabase import pipeline
+└── scripts/             ← Python scripts that build/import the question bank into Supabase
 ```
 
 ## Editing Guide
@@ -32,36 +26,32 @@ karnan/
 | What you want to change | Edit this file |
 |---|---|
 | Colors, fonts, spacing | `css/styles.css` |
-| Supabase URL / API key | `js/config.js` (top of file) |
-| Free tier limits (fallback) | `js/config.js` |
-| Database reads/writes | `js/db.js` |
-| Quiz question logic | `js/quiz.js` |
-| Practice flow / chapter selection | `js/flow.js` |
-| Leaderboard display | `js/leaderboard.js` |
-| Dashboard & mistake tracker | `js/dashboard.js` |
-| Home screen cards | `js/home.js` |
-| Login / register / logout | `js/auth.js` |
-| Admin panel | `js/admin.js` |
-| App startup | `js/app.js` |
-| Page layout / HTML screens | `index.html` |
+| Copy / mantra / screen layout | `index.html` |
+| Supabase URL / anon key | `js/simple-neet.js` (top of file) |
+| Exam rules (question counts, marking, timer) | `js/simple-neet.js` → `EXAM` constant |
+| Mock test list | `js/simple-neet.js` → `MOCKS` constant |
+| Auth, exam engine, scoring, results | `js/simple-neet.js` |
+| Question bank content | `data/`, `source/`, `scripts/build_questions.py`, `scripts/import_to_supabase.py` |
 
-## Script Load Order (index.html)
-Scripts must load in this order since each depends on the previous:
-1. `config.js` — must be first (defines `db`, state vars)
-2. `db.js` — uses `db`, `authUser`
-3. `utils.js` — pure helpers
-4. `navigation.js` — uses `showScreen`
-5. `flow.js` — uses manifest, renderChapters
-6. `quiz.js` — uses practiceState, timedState
-7. `leaderboard.js` — uses progress, globalLeaderboard
-8. `dashboard.js` — uses authUser, db
-9. `home.js` — uses manifest, userPlan
-10. `auth.js` — entry point (DOMContentLoaded)
-11. `admin.js` — uses adminConfig
-12. `app.js` — initApp, UI helpers, tips
+## How it works
+
+- Students sign in (Supabase auth) and see two mock tests plus one real exam
+  simulator on the home screen. Free accounts see the tests locked; paid
+  accounts (`plan` = premium/paid/pro/unlimited on `user_profiles`) can start
+  them.
+- Each test pulls active English/12th questions from Supabase
+  (Physics 45 · Chemistry 45 · Biology 90 = 180 questions), seeded so the
+  same mock always draws the same set.
+- The exam screen replicates real NEET navigation: question palette, mark
+  for review, timer, auto-submit on time-out.
+- Results are scored `+4` correct / `−1` wrong and saved to
+  `exam_attempts` when signed in.
 
 ## Serving
-This project must be served from a web server (not opened directly as a file) because it uses ES modules and Supabase. Use any of:
+
+This project must be served from a web server (not opened directly as a
+file) because it uses Supabase's browser client. Use any of:
 - `npx serve .`
 - `python3 -m http.server 8080`
-- Deploy to any static host (Netlify, Vercel, GitHub Pages, etc.)
+- Deploy to any static host (Netlify, Vercel, GitHub Pages, etc.) — this
+  repo already deploys to GitHub Pages on push to `main`.
