@@ -37,7 +37,7 @@ async function boot() {
   else show('landing');
   db.auth.onAuthStateChange(async (event, session) => {
     if (event === 'SIGNED_OUT') { user = null; profile = null; show('landing'); renderHeader(); }
-    if (event === 'SIGNED_IN' && session?.user) await setUser(session.user);
+    if (event === 'SIGNED_IN' && session?.user && session.user.id !== user?.id) await setUser(session.user);
   });
 }
 
