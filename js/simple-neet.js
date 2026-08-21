@@ -4,6 +4,16 @@ const { createClient } = window.supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const EXAM = { total: 180, minutes: 180, physics: 45, chemistry: 45, biology: 90, correct: 4, wrong: -1 };
+const DREAMS = [
+  { key:'general', label:'General Physician', icon:'🩺' },
+  { key:'cardio', label:'Cardiologist', icon:'❤️' },
+  { key:'neuro', label:'Neurologist', icon:'🧠' },
+  { key:'ortho', label:'Orthopedic Surgeon', icon:'🦴' },
+  { key:'pedia', label:'Pediatrician', icon:'👶' },
+  { key:'dental', label:'Dentist', icon:'🦷' },
+  { key:'eye', label:'Ophthalmologist', icon:'👁️' },
+  { key:'path', label:'Pathologist', icon:'🔬' }
+];
 const MOCKS = [
   { id: 'mock-1', name: 'NEET Mock Test 01', subtitle: 'Full syllabus · Exam simulation' },
   { id: 'mock-2', name: 'NEET Mock Test 02', subtitle: 'Full syllabus · Exam simulation' }
@@ -79,6 +89,7 @@ function renderHome() {
   const progress = loadProgress();
   renderFocusAreas(progress);
   renderRoadmap(progress);
+  renderDreamCard();
 }
 
 function renderFocusAreas(p){
@@ -254,6 +265,27 @@ function weakChapters(p,subject,minAttempts=3){
   return Object.values(p.chapters).filter(c=>c.subject===subject && c.total>=minAttempts).map(c=>({...c,rate:c.wrong/c.total})).sort((a,b)=>b.rate-a.rate);
 }
 
+function dreamKey(){ return `karnan_dream_${user?.id||'guest'}`; }
+function loadDream(){ try{ return localStorage.getItem(dreamKey())||''; }catch(e){ return ''; } }
+function setDream(key){ try{ localStorage.setItem(dreamKey(),key); }catch(e){/* storage unavailable */} renderDreamCard(); }
+function renderDreamCard(){
+  const el=$('dream-chips');
+  if(!el) return;
+  const chosen=loadDream();
+  el.innerHTML=DREAMS.map(d=>`<button class="dream-chip ${d.key===chosen?'active':''}" onclick="setDream('${d.key}')"><span>${d.icon}</span>${d.label}</button>`).join('');
+  const d=DREAMS.find(x=>x.key===chosen);
+  $('dream-selected').innerHTML=d?`Your dream: <b>${d.icon} ${esc(d.label)}</b> — come with aspiration, go with confidence.`:'Choose your dream specialization above.';
+}
+function renderDreamBanner(){
+  const el=$('dream-banner');
+  if(!el) return;
+  const chosen=loadDream();
+  const d=DREAMS.find(x=>x.key===chosen);
+  const name=profile?.display_name||'Student';
+  const floaters=['🩺','🎓','⭐','✨','❤️'].map((ic,i)=>`<span class="float-icon" style="--i:${i}">${ic}</span>`).join('');
+  el.innerHTML=`<div class="dream-float">${floaters}</div><p>${d?`${d.icon} <b>${esc(name)}, future ${esc(d.label)}</b> — every test brings you closer to that white coat.`:'🌟 Set your dream specialization on the home screen and watch how close each test brings you to it.'}</p>`;
+}
+
 function renderExam(){
   const q=questions[current];
   $('exam-title').textContent = activeTest==='real' ? 'REAL NEET EXAM' : activeTest==='mock-1' ? 'NEET MOCK TEST 01' : 'NEET MOCK TEST 02';
@@ -307,6 +339,7 @@ function renderResult(r,auto){
   $('result-message').textContent=r.score>=600?'Excellent! Practice makes man perfect — walk into the real exam with this same confidence. You are one step closer to becoming a doctor.':r.score>=500?'Good progress. Review your mistakes and practice again — that is how confidence is built. Push the next mock higher.':'This is your baseline, not your limit. Come back with the same aspiration, practice again, and go with more confidence next time.';
   $('result-subjects').innerHTML=Object.entries(r.subjects).map(([s,v])=>`<div class="result-row"><b>${s}</b><span>${v.correct} correct · ${v.wrong} wrong · ${v.unanswered} unanswered</span><strong>${v.score}</strong></div>`).join('');
   $('auto-note').style.display=auto?'block':'none';
+  renderDreamBanner();
   const rev=$('review-list'); rev.classList.remove('open'); rev.innerHTML=''; delete rev.dataset.rendered;
   $('review-toggle').textContent='📖 Review Answers & Explanations';
 }
