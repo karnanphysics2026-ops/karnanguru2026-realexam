@@ -99,6 +99,20 @@ section.page.active{display:block}
 .chips span{font-size:12px;padding:6px 9px;background:rgba(255,255,255,.06);border-radius:7px;color:var(--muted);border:1px solid var(--border)}
 .premium-note{margin:0 auto 60px;padding:13px 24px;color:var(--gold);background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.4);border-radius:10px;font-size:13px}
 
+.progress-tagline{max-width:1120px;margin:0 auto 16px;padding:0 24px;color:var(--muted);font-size:14px}
+.focus-panel{max-width:1120px;margin:0 auto 18px;padding:0 24px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.focus-panel .muted{grid-column:1/-1;color:var(--muted)}
+.focus-col{background:var(--navy2);border:1px solid var(--border);border-radius:14px;padding:18px}
+.focus-col h4{margin:0 0 12px;font-family:Sora;font-size:14px;color:var(--text)}
+.focus-row{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-radius:9px;font-size:13px;margin:6px 0;background:var(--navy)}
+.focus-row span{color:var(--text)}
+.focus-row.weak b{color:var(--danger)}
+.focus-row.strong b{color:var(--success)}
+.roadmap-card{max-width:1120px;margin:0 auto 60px;padding:24px;background:var(--navy2);border:1px solid var(--border);border-radius:16px}
+.roadmap-card h3{margin:0 0 16px;font-family:Sora;font-size:16px;color:var(--text)}
+.roadmap-svg{width:100%;height:auto;display:block}
+.roadmap-note{margin:14px 0 0;color:var(--muted);font-size:13px}
+
 .auth-page{display:grid;place-items:center;padding:40px 20px;background:radial-gradient(circle at 50% 0%,#16224a 0%,var(--navy) 60%)}
 .auth-card{width:min(420px,100%);background:var(--navy2);border:1px solid var(--border);border-radius:18px;padding:30px;box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
 .auth-card h1{font-family:Sora;margin:0 0 5px;color:var(--text)}
@@ -211,6 +225,8 @@ section.page.active{display:block}
 .home-top{align-items:flex-start;flex-direction:column;margin:20px 20px 25px}
 .test-grid{grid-template-columns:1fr}
 .real-card{margin-left:20px;margin-right:20px;align-items:flex-start;flex-direction:column}
+.focus-panel{grid-template-columns:1fr;margin-left:20px;margin-right:20px;padding:0}
+.roadmap-card{margin-left:20px;margin-right:20px}
 .exam-layout{grid-template-columns:1fr}
 .palette-panel{position:static}
 .question-panel{min-height:0}
